@@ -35,7 +35,16 @@ void main(void)
 
     vec3 diffuse = nl * u_lightColor;
 
-    vec3 temp_color=(u_ambient+diffuse)*color.xyz;
+    vec3 temp_color=(u_ambient+diffuse);
+
+     if (color.r < 0)
+    {
+            temp_color *= NRM.rgb;             /*  Use normal for color */
+    }
+    else
+        temp_color *= color.xyz;   /* Use obj's color as usual */
+
+    
 
     outColor=vec4(temp_color,1);
 

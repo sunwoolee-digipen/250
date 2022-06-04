@@ -19,7 +19,7 @@ public:
 		NONE
 	};
 
-	IG() :curr_demo(DEMOS::TOON), selectedItem(0), is_wireframe(false)  {};
+	IG() :curr_demo(DEMOS::MODEL), selectedItem(0), is_wireframe(false)  {};
 	void init();
 	void update();
 	void draw();

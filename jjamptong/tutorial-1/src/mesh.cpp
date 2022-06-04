@@ -664,11 +664,15 @@ void Mesh::draw(/*glm::vec3 color ,glm::mat4 view, glm::mat4 projection, glm::ve
 
     glm::vec4 useNormal{ -1.0f, -1.0f, -1.0f, 1.0f };
 
-    if(GLHelper::currRenderMode == GLHelper::RenderMode::NORMAL)
-        glUniform4fv(colorLoc, 1, ValuePtr(selfColor));
+    if (GLHelper::currRenderMode == GLHelper::RenderMode::NORMAL)
+    {
+        glUniform4fv(colorLoc, 1, ValuePtr(useNormal));
+    }
 
-    else if(GLHelper::currRenderMode == GLHelper::RenderMode::WIREFRAME)
+    else if (GLHelper::currRenderMode == GLHelper::RenderMode::WIREFRAME)
+    {
         glUniform4fv(colorLoc, 1, ValuePtr(selfColor));
+    }
 
     /*  Send MVP matrix to shaders */
     glUniformMatrix4fv(mvpMatLoc, 1, GL_FALSE, ValuePtr(MVPMat));
