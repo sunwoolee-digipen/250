@@ -626,13 +626,13 @@ void Mesh::compute_matrix([[maybe_unused]] float delta_time, glm::highp_ivec3 ey
     shdr_pgm.UnUse();
 }
 
-void Mesh::init(std::vector<std::pair<GLenum, std::string>>& shdr_files, glm::vec4 selfcol, glm::vec3 pos, glm::vec3 scale, glm::vec3 rotate)
+void Mesh::init(std::vector<std::pair<GLenum, std::string>>& shdr_files, glm::vec4 selfcol, glm::vec3 pos, glm::vec3 scal, glm::vec3 rotate)
 {
     position = pos;
-    scale = scale;
+    scale = scal;
     rotation = rotate;
     selfColor = selfcol;
-    selfMat = Translate(pos) */*Rotate(HALF_PI, XAXIS) */  Scale(scale);
+    selfMat = Translate(pos) */*Rotate(HALF_PI, XAXIS) */  Scale(scal);
     setup_shdrpgm(shdr_files);
     setup_mesh();
 
@@ -709,6 +709,6 @@ void Mesh::SendVertexData()
     for (int i = 0; i < numAttribs; ++i)
     {
         glEnableVertexAttribArray(vLayout[i].location);
-        glVertexAttribPointer(vLayout[i].location, vLayout[i].size, vLayout[i].type, vLayout[i].normalized, vertexSize, (void*)vLayout[i].offset);
+        glVertexAttribPointer(vLayout[i].location, vLayout[i].size, vLayout[i].type, vLayout[i].normalized, vertexSize, reinterpret_cast<void*>(vLayout[i].offset));
     }
 }

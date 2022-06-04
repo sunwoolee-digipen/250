@@ -7,7 +7,7 @@
 class Models :public GLDemo
 {
 public:
-	Models() {};
+	Models():camera(nullptr){};
 	~Models() {};
 
 	void init() override;
