@@ -15,12 +15,23 @@ public:
 	void draw() override;
 	void cleanup() override;
 private:
-	std::vector<Mesh> meshes =  {   CreatePlane(10,10),
-                                    CreateCube(10, 10),       /*  For torso, feet */
-                                    CreateSphere(16, 16),   /*  For head */
-                                    CreateCylinder(1, 8),   /*  For arms, legs */
-                                    CreateCone(16, 8),      /*  For hat */
-                                    CreateTorus(16, 32, 0, TWO_PI)                      /*  For base */
-                                };
+	glm::ivec2 PlaneSS{ 10,10 };
+	glm::ivec2 CubeSS{ 10,10 };
+	glm::ivec2 SphereSS{ 16,16};
+	glm::ivec2 CylinderSS{ 1,8};
+	glm::ivec2 ConeSS{ 16,8 };
+	glm::ivec2 TorusSS{ 16,32 };
+
+	Mesh Plane = CreatePlane(10, 10);
+	Mesh Cube = CreateCube(10, 10);
+	Mesh Sphere = CreateSphere(16, 16);
+	Mesh Cylinder = CreateCylinder(1, 8);
+	Mesh Cone = CreateCone(16, 8);
+	Mesh Torus = CreateTorus(16, 32, 0, TWO_PI);
+	
 	Camera* camera;
+
+	std::vector<std::pair<GLenum, std::string>> shdr_files;
+
+	bool once = false;
 };
