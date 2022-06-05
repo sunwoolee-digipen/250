@@ -136,20 +136,20 @@ void ValueNoise::makePPM4Turbulence()
     unsigned numLayers = 5;
     float maxNoiseVal = 0;
     for (unsigned j = 0; j < 256; ++j) {
-        for (unsigned i = 0; i < 256; ++i) {
-            glm::vec2 pNoise = glm::vec2(i, j) * frequencyTur;
+        for (unsigned i = 0; i < 256 * 3; ++i) {
+            glm::vec2 pNoise = glm::vec2(i/3, j) * frequencyTur;
             float amplitude = 1;
             for (unsigned l = 0; l < numLayers; ++l) {
-                ptr_texels[j][i] += std::fabs(2 * noise.eval(pNoise) - 1) * amplitude;
+                ptr_texels[j][i/3] += std::fabs(2 * noise.eval(pNoise) - 1) * amplitude;
                 pNoise *= frequencyMultTur;
                 amplitude *= amplitudeMultTur;
             }
-            if (ptr_texels[j][ i] > maxNoiseVal) maxNoiseVal = ptr_texels[j][ i];
+            if (ptr_texels[j][ i/3] > maxNoiseVal) maxNoiseVal = ptr_texels[j][ i/3];
         }
     }
     for (unsigned j = 0; j < 256; ++j) {
-        for (unsigned i = 0; i < 256; ++i) {
-            ptr_texels[j][i] /= maxNoiseVal;
+        for (unsigned i = 0; i < 256*3 ; ++i) {
+            ptr_texels[j][i/3] /= maxNoiseVal;
         }
     }
 }
@@ -226,7 +226,7 @@ void ValueNoise::update([[maybe_unused]]double delta_time)
         case 0:curr_mode = VALUE_MODE::VALUE; makePPM(); texture_setup(); break;
         case 1:curr_mode = VALUE_MODE::MARBLE; makePPM4Marble(); texture_setup(); break;
         case 2:curr_mode = VALUE_MODE::WOOD; makePPM4Wood(); texture_setup(); break;
-
+        case 3:curr_mode = VALUE_MODE::TURBULENCE; makePPM4Turbulence(); texture_setup(); break;
         default: curr_mode = VALUE_MODE::VALUE; break;
         }
     }

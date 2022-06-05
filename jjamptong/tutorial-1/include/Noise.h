@@ -55,6 +55,7 @@ private:
         VALUE = 0,
         MARBLE,
         WOOD,
+        TURBULENCE,
         NONE
     };
 	enum class METHOD_MODE
@@ -64,7 +65,7 @@ private:
         NONE
     };
 
-    const char* items[static_cast<int>(VALUE_MODE::NONE)] = { "Value", "Marble", "Wood"};
+    const char* items[static_cast<int>(VALUE_MODE::NONE)] = { "Value", "Marble", "Wood", "Turbulence"};
     const char* methods[static_cast<int>(METHOD_MODE::NONE)] = { "SmoothStep", "Quintic" };
 	bool do_once = true;
 
