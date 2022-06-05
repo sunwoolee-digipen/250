@@ -22,10 +22,16 @@ private:
 
 	GLSLShader shdr_pgm;
 	std::vector<glm::vec2> pos_vtx;
+	std::vector<glm::vec2> moveable_vrx{
+		glm::vec2(-0.5f, -0.75f),glm::vec2(-0.5f, 0.0f),glm::vec2(0.5f, 0.0f),glm::vec2(0.5f, -0.75f),glm::vec2(0.5f, 0.0f)
+	};
+
+	void add_vao();
 	void vert_update(glm::vec2 P0, glm::vec2 P1, int count);
 	void calc_vert(int count);
-	int curve_count = 2;
+	int curve_count = 1;
 	bool is_clicked = false;
 	int VERT_NUM = 4;
 	int index{ 0 };
+	bool hide_tangent = false;
 };

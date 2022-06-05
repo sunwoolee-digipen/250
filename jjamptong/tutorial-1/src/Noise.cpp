@@ -131,8 +131,8 @@ void ValueNoise::makePPM4Turbulence()
 {
     ValueNoise noise;
     float frequencyTur = 0.02f;
-    float frequencyMultTur = 1.8;
-    float amplitudeMultTur = 0.35;
+    float frequencyMultTur = 1.8f;
+    float amplitudeMultTur = 0.35f;
     unsigned numLayers = 5;
     float maxNoiseVal = 0;
     for (unsigned j = 0; j < 256; ++j) {

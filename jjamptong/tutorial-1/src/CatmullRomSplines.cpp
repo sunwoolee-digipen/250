@@ -82,10 +82,6 @@ void CatmullRomSplines::draw()
 		glDrawArrays(GL_LINE_STRIP, 1 + size_in_one_curve * i, (VERT_NUM));
 	}
 
-	//glVertexAttrib3f(9, 0.f, 1.f, 0.f); // green color for vectors
-	//glDrawArrays(GL_LINE_STRIP, 0, 2);	//first two node
-	//glDrawArrays(GL_LINE_STRIP, (VERT_NUM - 1), 2);//last two node
-
 	glLineWidth(1.f);
 
 	glPointSize(10.f);
@@ -97,13 +93,6 @@ void CatmullRomSplines::draw()
 		glDrawArrays(GL_POINTS, VERT_NUM + (size_in_one_curve * i), 2);
 	}
 
-	//glVertexAttrib3f(9, 1.f, 0.0f, 0.f); // red color for points
-
-	//for (int i{ 0 }; i < curve_count; i++)
-	//{
-	//	glDrawArrays(GL_POINTS, 1, 1);
-	//	glDrawArrays(GL_POINTS, static_cast<int>(pos_vtx.size()) - 2, 1);
-	//}
 	glPointSize(1.f);
 
 	glBindVertexArray(0);
