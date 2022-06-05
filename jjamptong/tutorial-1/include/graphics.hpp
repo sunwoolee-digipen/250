@@ -20,7 +20,6 @@
 //#include "gl/freeglut.h"
 
 #include "mesh.hpp"
-#include "object.hpp"
 
 
 #pragma comment (lib, "opengl32.lib")

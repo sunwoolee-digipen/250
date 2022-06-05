@@ -26,9 +26,9 @@
 /*  Vertex format */
 struct Vertex
 {
-    Vertex(Vec3 pos, Vec3 nrm, Vec3 uv) : pos(pos), nrm(nrm), uv(uv){}
+    Vertex(Vec3 pos, Vec3 nrm, Vec2 uv) : pos(pos), nrm(nrm), uv(uv){}
 
-    Vertex(){ }
+    Vertex() : pos({ 0,0,0 }), nrm({ 0,0,0 }), uv({ 0,0 }) {}
 
     Vec3 pos, nrm;
     Vec2 uv;
@@ -46,7 +46,7 @@ struct VertexLayout
     int size;
     int type;
     bool normalized;
-    int offset;
+    __int64 offset;
 };
 
 const VertexLayout vLayout[] =
@@ -81,9 +81,9 @@ struct Mesh
         Later on if we want to render a mesh, we just need to bind the VAO. 
         We don't need to copy the buffer data again.
     */
-    GLuint VAO;
-    GLuint VBO;
-    GLuint IBO;
+    GLuint VAO = 0;
+    GLuint VBO=0;
+    GLuint IBO=0;
     /// /////////////////////////
     GLSLShader shdr_pgm;
 
@@ -95,18 +95,18 @@ struct Mesh
     //GLint colorLoc;
     //GLint  ViewPosLoc;
 
-    GLint textureLoc, colorLoc, mvpMatLoc, modelLoc;
+    GLint textureLoc{ 0 }, colorLoc{ 0 }, mvpMatLoc{ 0 }, modelLoc{ 0 };
 
     glm::vec3 position{ 0,0,0 };
     glm::vec3 scale{ 1,1,1 };
     glm::vec3 rotation{ 0,0,0 };
     glm::vec4 selfColor{ 1,0,0,1 };
-    
-    Mat4 selfMat, viewMat, projMat, MVPMat;
+
     GLint lightPosLoc;
     glm::vec3 lightPos{ 0.0,0.0,-3.0 };
 
-    bool drawOnce = false;
+    Mat4 selfMat{ Mat4(1.0f) }, viewMat{ Mat4(1.0f) }, projMat{ Mat4(1.0f) }, MVPMat{ Mat4(1.0f) };
+
 
     void init(std::vector<std::pair<GLenum, std::string>>& shdr_files, glm::vec4 selfcol, glm::vec3 Pos = { 0,0,0 }, glm::vec3 Scale = { 1,1,1 }, glm::vec3 Rotate = { 0,0,0 });
     void SendVertexData();
@@ -146,15 +146,15 @@ Mesh CreateCone(int stacks, int slices);
 /******************************************************************************/
 /*  Pre-defined shapes                                                        */
 /******************************************************************************/
-enum MeshID { PLANE, CUBE, SPHERE, CYLINDER, CONE, TORUS, NUM_MESHES };
+//enum MeshID { PLANE, CUBE, SPHERE, CYLINDER, CONE, TORUS, NUM_MESHES };
 
-static Mesh mesh[NUM_MESHES] =  {   CreatePlane(50,50),
-                                    CreateCube(1, 1),       /*  For torso, feet */
-                                    CreateSphere(16, 16),   /*  For head */
-                                    CreateCylinder(1, 8),   /*  For arms, legs */
-                                    CreateCone(16, 8),      /*  For hat */
-                                    //CreateTorus(4, 8, QUARTER_PI, TWO_PI - QUARTER_PI), /*  For hands */
-                                    CreateTorus(16, 32, 0, TWO_PI)                      /*  For base */
-                                };
+//static Mesh mesh[NUM_MESHES] =  {   CreatePlane(50,50),
+//                                    CreateCube(1, 1),       /*  For torso, feet */
+//                                    CreateSphere(16, 16),   /*  For head */
+//                                    CreateCylinder(1, 8),   /*  For arms, legs */
+//                                    CreateCone(16, 8),      /*  For hat */
+//                                    //CreateTorus(4, 8, QUARTER_PI, TWO_PI - QUARTER_PI), /*  For hands */
+//                                    CreateTorus(16, 32, 0, TWO_PI)                      /*  For base */
+//                                };
 
 #endif

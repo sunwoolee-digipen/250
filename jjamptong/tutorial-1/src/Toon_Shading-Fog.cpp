@@ -40,12 +40,12 @@ void Toon_Fog::update(double delta_time) {
 
 	switch (static_cast<int>(GLHelper::currCameraMode))
 	{
-	case GLHelper::UP: camera->MoveUp(); GLHelper::currCameraMode = GLHelper::IDLE; break;
-	case GLHelper::DOWN:camera->MoveDown(); GLHelper::currCameraMode = GLHelper::IDLE; break;
-	case GLHelper::LEFT:camera->MoveLeft(); GLHelper::currCameraMode = GLHelper::IDLE; break;
-	case GLHelper::RIGHT:camera->MoveRight(); GLHelper::currCameraMode = GLHelper::IDLE; break;
-	case GLHelper::CLOSER:camera->MoveCloser(); GLHelper::currCameraMode = GLHelper::IDLE; break;
-	case GLHelper::FARTHER:camera->MoveFarther(); GLHelper::currCameraMode = GLHelper::IDLE; break;
+		case static_cast<int>(GLHelper::CameraMode::UP) : camera->MoveUp(); GLHelper::currCameraMode = GLHelper::CameraMode::IDLE; break;
+		case static_cast<int>(GLHelper::CameraMode::DOWN) : camera->MoveDown(); GLHelper::currCameraMode = GLHelper::CameraMode::IDLE; break;
+		case static_cast<int>(GLHelper::CameraMode::LEFT) : camera->MoveLeft(); GLHelper::currCameraMode = GLHelper::CameraMode::IDLE; break;
+		case static_cast<int>(GLHelper::CameraMode::RIGHT) : camera->MoveRight(); GLHelper::currCameraMode = GLHelper::CameraMode::IDLE; break;
+		case static_cast<int>(GLHelper::CameraMode::CLOSER) : camera->MoveCloser(); GLHelper::currCameraMode = GLHelper::CameraMode::IDLE; break;
+		case static_cast<int>(GLHelper::CameraMode::FARTHER) : camera->MoveFarther(); GLHelper::currCameraMode = GLHelper::CameraMode::IDLE; break;
 	}
 
 	Sphere.GetShdr_pgm().Use();

@@ -8,7 +8,7 @@
 class Toon_Fog :public GLDemo
 {
 public:
-	Toon_Fog() {};
+	Toon_Fog():camera(nullptr) {};
 	~Toon_Fog() {};
 
 	void init() override;

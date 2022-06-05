@@ -27,6 +27,7 @@ an OpenGL context and implement a game loop.
 
 #include <Model_demo.h>
 #include <Toon_Shading-Fog.h>
+#include <Noise.h>
 #include <vector>
 
 /*                                                   type declarations
@@ -53,9 +54,11 @@ int main() {
     std::vector<GLDemo*> demos;
     Models* model = new Models();
     Toon_Fog* toonfog = new Toon_Fog();
+    ValueNoise* valnoise = new ValueNoise();
 
     demos.push_back(model);
     demos.push_back(toonfog);
+    demos.push_back(valnoise);
     
     IG::DEMOS curr_demo = main_IG->Get_state();
 

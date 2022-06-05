@@ -50,10 +50,10 @@ struct GLHelper
   static GLFWwindow *ptr_window;
 
   /*  For toggling between different rendering modes, need access from input.cpp */
-  enum RenderMode { COLOR, NORMAL, WIREFRAME };
+  enum class RenderMode { COLOR, NORMAL, WIREFRAME };
   static RenderMode currRenderMode;
 
-  enum CameraMode { IDLE, UP, DOWN, LEFT, RIGHT, CLOSER, FARTHER };
+  enum class CameraMode { IDLE, UP, DOWN, LEFT, RIGHT, CLOSER, FARTHER };
   static CameraMode currCameraMode;
  // static GLboolean animated;
   //static GLboolean justAnimated;

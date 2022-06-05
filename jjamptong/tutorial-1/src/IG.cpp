@@ -2,7 +2,6 @@
 
 #include <glhelper.h>
 
-#include "object.hpp"
 
 
 void IG::init()
@@ -56,33 +55,35 @@ void IG::update()
 
 	if(is_wireframe == true)
 	{
-		GLHelper::currRenderMode = GLHelper::WIREFRAME;
+		GLHelper::currRenderMode = GLHelper::RenderMode::WIREFRAME;
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		glDisable(GL_CULL_FACE);
 
 	}
 	else
 	{
-		GLHelper::currRenderMode = GLHelper::NORMAL;
+		GLHelper::currRenderMode = GLHelper::RenderMode::NORMAL;
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		glDisable(GL_CULL_FACE);
 	}
 
 	ImGui::NewLine();
-	ImGui::Combo("Demos", &selectedItem, items, IM_ARRAYSIZE(items));
-
-	switch (selectedItem)
+	if(ImGui::Combo("Demos", &selectedItem, items, IM_ARRAYSIZE(items)))
 	{
-	case 0:curr_demo = DEMOS::MODEL; break;
-	case 1:curr_demo = DEMOS::TOON; break;
-	case 2:curr_demo = DEMOS::VALUE; break;
-	case 3:curr_demo = DEMOS::PERLIN; break;
-	case 4:curr_demo = DEMOS::HERMITE; break;
-	case 5:curr_demo = DEMOS::CATMULL; break;
-	case 6:curr_demo = DEMOS::GEOM; break;
-	case 7:curr_demo = DEMOS::SHADOW; break;
+		switch (selectedItem)
+		{
+		case 0:curr_demo = DEMOS::MODEL; break;
+		case 1:curr_demo = DEMOS::TOON; break;
+		case 2:curr_demo = DEMOS::VALUE; break;
+		case 3:curr_demo = DEMOS::PERLIN; break;
+		case 4:curr_demo = DEMOS::TERRAIN; break;
+		case 5:curr_demo = DEMOS::HERMITE; break;
+		case 6:curr_demo = DEMOS::CATMULL; break;
+		case 7:curr_demo = DEMOS::GEOM; break;
+		case 8:curr_demo = DEMOS::SHADOW; break;
 
-	default: curr_demo = DEMOS::MODEL; break;
+		default: curr_demo = DEMOS::MODEL; break;
+		}
 	}
 
 	ImGui::End();
