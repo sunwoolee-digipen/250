@@ -1,3 +1,7 @@
+// Dong-A Choi, Sunwoo Lee
+// CS250 Class Project
+// CS250
+// 2022 spring
 #include <Model_demo.h>
 #include <IG.h>
 /*                                                   objects with file scope

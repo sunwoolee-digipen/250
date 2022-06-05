@@ -1,3 +1,7 @@
+// Dong-A Choi, Sunwoo Lee
+// CS250 Class Project
+// CS250
+// 2022 spring
 #include <Hermite_Curve.h>
 
 void Hermite_Curve::init()
@@ -17,7 +21,7 @@ void Hermite_Curve::update([[maybe_unused]]double delta_time)
 		update_vao();
 	}
 
-	ImGui::Checkbox("Togle WireFrame", (bool*)&hide_tangent);
+	ImGui::Checkbox("Hide Tangent", (bool*)&hide_tangent);
 
 	if (ImGui::Button("addLine"))
 	{
@@ -39,6 +43,7 @@ void Hermite_Curve::update([[maybe_unused]]double delta_time)
 		pos_vtx.clear();
 		VERT_NUM = 4;
 		curve_count = 1;
+		hide_tangent = false;
 
 		setup_vao();
 	}

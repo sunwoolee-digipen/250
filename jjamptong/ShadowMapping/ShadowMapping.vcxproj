@@ -92,7 +92,6 @@
     <ClInclude Include="include\Shadow.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\glDemo.cpp" />
     <ClCompile Include="src\glhelper.cpp" />
     <ClCompile Include="src\glslshader.cpp" />
     <ClCompile Include="src\graphics.cpp" />

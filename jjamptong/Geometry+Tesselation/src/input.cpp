@@ -1,3 +1,7 @@
+// Dong-A Choi, Sunwoo Lee
+// CS250 Class Project
+// CS250
+// 2022 spring
 #include "input.hpp"
 #include <graphics.hpp>
 

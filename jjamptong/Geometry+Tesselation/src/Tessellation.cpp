@@ -1,3 +1,7 @@
+// Dong-A Choi, Sunwoo Lee
+// CS250 Class Project
+// CS250
+// 2022 spring
 #include <Tessellation.h>
 #include <IG.h>
 #include <graphics.hpp>
@@ -24,7 +28,7 @@ void Tessellation::init() {
 	IG::init();
 }
 
-void Tessellation::update(double delta_time) {
+void Tessellation::update(double ) {
 	//glClearColor(0.f,0.f, 0.f, 1.f);
 
 	glPatchParameteri(GL_PATCH_VERTICES, 3);

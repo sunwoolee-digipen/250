@@ -37,7 +37,7 @@ void addIndex(Mesh& mesh, int index);
 /******************************************************************************/
 Mesh CreatePlane(int stacks, int slices)
 {
-    Mesh mesh;
+    Mesh mesh_;
 
     for (int stack = 0; stack <= stacks; ++stack)
     {
@@ -53,13 +53,13 @@ Mesh CreatePlane(int stacks, int slices)
             v.nrm = Vec3(v.pos.x, v.pos.y, -1.0f);
             v.uv = Vec2(col, row);
 
-            addVertex(mesh, v);
+            addVertex(mesh_, v);
         }
     }
 
-    BuildIndexBuffer(stacks, slices, mesh);
+    BuildIndexBuffer(stacks, slices, mesh_);
 
-    return mesh;
+    return mesh_;
 }
 
 
@@ -80,7 +80,7 @@ Mesh CreatePlane(int stacks, int slices)
 Mesh CreateCube(int stacks, int slices)
 {
     Mesh planeMesh = CreatePlane(stacks, slices);
-    Mesh mesh;
+    Mesh mesh_;
 
     Vec3 const translateArray[] =
     {
@@ -120,14 +120,14 @@ Mesh CreateCube(int stacks, int slices)
             v.pos = RoundDecimal(v.pos);
             v.nrm = RoundDecimal(v.nrm);
             v.pos *= -1.f;
-            addVertex(mesh, v);
+            addVertex(mesh_, v);
         }
 
         for (int j = 0; j < planeMesh.numIndices; ++j)
-            addIndex(mesh, planeMesh.indexBuffer[j] + planeMesh.numVertices * i);
+            addIndex(mesh_, planeMesh.indexBuffer[j] + planeMesh.numVertices * i);
     }
 
-    return mesh;
+    return mesh_;
 }
 
 
@@ -147,7 +147,7 @@ Mesh CreateCube(int stacks, int slices)
 /******************************************************************************/
 Mesh CreateSphere(int stacks, int slices)
 {
-    Mesh mesh;
+    Mesh mesh_;
 
     float radius = 0.5;
     for (int i = 0; i <= stacks; i++)
@@ -170,11 +170,11 @@ Mesh CreateSphere(int stacks, int slices)
             vertex.nrm.y = vertex.pos.y;
             vertex.nrm.z = vertex.pos.z;
             vertex.nrm /= radius;
-            addVertex(mesh, vertex);
+            addVertex(mesh_, vertex);
         }
     }
-    BuildIndexBuffer(stacks, slices, mesh);
-    return mesh;
+    BuildIndexBuffer(stacks, slices, mesh_);
+    return mesh_;
 }
 
 
@@ -195,7 +195,7 @@ Mesh CreateSphere(int stacks, int slices)
 /******************************************************************************/
 Mesh CreateCylinder(int stacks, int slices)
 {
-    Mesh mesh;
+    Mesh mesh_;
     Vertex vertex;
 
     /// For the body
@@ -222,12 +222,12 @@ Mesh CreateCylinder(int stacks, int slices)
 			vertex.nrm.y = 0.f;
 			vertex.nrm.z = vertex.pos.z / 0.5f;
 
-			addVertex(mesh, vertex);
+			addVertex(mesh_, vertex);
 		}
     }
-    BuildIndexBuffer(stacks, slices, mesh);
+    BuildIndexBuffer(stacks, slices, mesh_);
 
-    int vertex_size = static_cast<int>(mesh.vertexBuffer.size());
+    int vertex_size = static_cast<int>(mesh_.vertexBuffer.size());
 
 	/// For the caps
 
@@ -248,7 +248,7 @@ Mesh CreateCylinder(int stacks, int slices)
             vertex.nrm.z = vertex.pos.z / 0.5f;
         }
 
-		addVertex(mesh, vertex);
+		addVertex(mesh_, vertex);
 
 		float row = static_cast<float>(i) / stacks;
 
@@ -279,7 +279,7 @@ Mesh CreateCylinder(int stacks, int slices)
                 vertex.nrm.z = vertex.pos.z / 0.5f;
             }
 
-			addVertex(mesh, vertex);
+			addVertex(mesh_, vertex);
 		}
 	}
 
@@ -289,16 +289,16 @@ Mesh CreateCylinder(int stacks, int slices)
 
         for (int j = 1; j < slices; j++)
         {
-            addIndex(mesh, vertex_size);
-            addIndex(mesh, vertex_size + j);
-            addIndex(mesh, vertex_size + j + 1);
+            addIndex(mesh_, vertex_size);
+            addIndex(mesh_, vertex_size + j);
+            addIndex(mesh_, vertex_size + j + 1);
         }
-        addIndex(mesh, vertex_size);
-        addIndex(mesh, vertex_size + slices);
-        addIndex(mesh, vertex_size + 1);
+        addIndex(mesh_, vertex_size);
+        addIndex(mesh_, vertex_size + slices);
+        addIndex(mesh_, vertex_size + 1);
     }
     
-    return mesh;
+    return mesh_;
 }
 
 
@@ -323,7 +323,7 @@ Mesh CreateCylinder(int stacks, int slices)
 /******************************************************************************/
 Mesh CreateTorus(int stacks, int slices, float startAngle, float endAngle)
 {
-    Mesh mesh;
+    Mesh mesh_;
 
     float R = 0.3f;
     float r = 0.1f;
@@ -354,11 +354,11 @@ Mesh CreateTorus(int stacks, int slices, float startAngle, float endAngle)
             vertex.pos /= -2 * (R + r);
 
 
-            addVertex(mesh, vertex);
+            addVertex(mesh_, vertex);
         }
     }
-    BuildIndexBuffer(stacks, slices, mesh);
-    return mesh;
+    BuildIndexBuffer(stacks, slices, mesh_);
+    return mesh_;
 }
 
 
@@ -379,7 +379,7 @@ Mesh CreateTorus(int stacks, int slices, float startAngle, float endAngle)
 /******************************************************************************/
 Mesh CreateCone(int stacks, int slices)
 {//16 8
-    Mesh mesh;
+    Mesh mesh_;
     Vertex vertex;
 
     float R = 0.5;
@@ -406,17 +406,17 @@ Mesh CreateCone(int stacks, int slices)
             vertex.nrm.y = 0.f;
             vertex.nrm.z = vertex.pos.z / 0.5f;
 
-            addVertex(mesh, vertex);
+            addVertex(mesh_, vertex);
         }
     }
-    BuildIndexBuffer(stacks, slices, mesh);
+    BuildIndexBuffer(stacks, slices, mesh_);
 
-	int vertex_size = static_cast<int>(mesh.vertexBuffer.size());
+	int vertex_size = static_cast<int>(mesh_.vertexBuffer.size());
 
 	vertex.pos = Vec3(0.0, -0.5, 0.0);
 	vertex.nrm = Vec3(0.0, -1.0, 0.0);
 
-	addVertex(mesh, vertex);
+	addVertex(mesh_, vertex);
 
 
 	for (int j = 0; j <= slices; j++)
@@ -435,24 +435,24 @@ Mesh CreateCone(int stacks, int slices)
 		vertex.nrm.y = -1.0;
 		vertex.nrm.z = 0.0;
 
-		addVertex(mesh, vertex);
+		addVertex(mesh_, vertex);
 	}
 
 
 
 	for (int j = 1; j < slices; j++)
 	{
-		addIndex(mesh, vertex_size);
-		addIndex(mesh, vertex_size + j);
-		addIndex(mesh, vertex_size + j + 1);
+		addIndex(mesh_, vertex_size);
+		addIndex(mesh_, vertex_size + j);
+		addIndex(mesh_, vertex_size + j + 1);
 	}
 
-	addIndex(mesh, vertex_size);
-	addIndex(mesh, vertex_size + slices);
-	addIndex(mesh, vertex_size + 1);
+	addIndex(mesh_, vertex_size);
+	addIndex(mesh_, vertex_size + slices);
+	addIndex(mesh_, vertex_size + 1);
 
 
-	return mesh;
+	return mesh_;
 }
 
 
@@ -469,7 +469,7 @@ Mesh CreateCone(int stacks, int slices)
         The mesh whose index buffer will be generated.
 */
 /******************************************************************************/
-void BuildIndexBuffer(int stacks, int slices, Mesh& mesh)
+void BuildIndexBuffer(int stacks, int slices, Mesh& mesh_)
 {
     int p0 = 0, p1 = 0, p2 = 0;
     int p3 = 0, p4 = 0, p5 = 0;
@@ -488,14 +488,14 @@ void BuildIndexBuffer(int stacks, int slices, Mesh& mesh)
             p2 = p1 + stride;
 
             /*  Ignore degenerate triangle */
-            if (!DegenerateTri(mesh.vertexBuffer[p0].pos,
-                mesh.vertexBuffer[p1].pos,
-                mesh.vertexBuffer[p2].pos))
+            if (!DegenerateTri(mesh_.vertexBuffer[p0].pos,
+                mesh_.vertexBuffer[p1].pos,
+                mesh_.vertexBuffer[p2].pos))
             {
                 /*  Add the indices for the first triangle */
-                addIndex(mesh, p0);
-                addIndex(mesh, p1);
-                addIndex(mesh, p2);
+                addIndex(mesh_, p0);
+                addIndex(mesh_, p1);
+                addIndex(mesh_, p2);
             }
             
             /*  You need to compute the indices for the second triangle here */
@@ -505,14 +505,14 @@ void BuildIndexBuffer(int stacks, int slices, Mesh& mesh)
             p5 = p0;
 
             /*  Ignore degenerate triangle */
-            if (!DegenerateTri(mesh.vertexBuffer[p3].pos,
-                mesh.vertexBuffer[p4].pos,
-                mesh.vertexBuffer[p5].pos))
+            if (!DegenerateTri(mesh_.vertexBuffer[p3].pos,
+                mesh_.vertexBuffer[p4].pos,
+                mesh_.vertexBuffer[p5].pos))
             {
                 /*  Add the indices for the second triangle */
-                addIndex(mesh, p3);
-                addIndex(mesh, p4);
-                addIndex(mesh, p5);
+                addIndex(mesh_, p3);
+                addIndex(mesh_, p4);
+                addIndex(mesh_, p5);
             }
         }
     }
@@ -530,10 +530,10 @@ void BuildIndexBuffer(int stacks, int slices, Mesh& mesh)
         The vertex to be added.
 */
 /******************************************************************************/
-void addVertex(Mesh& mesh, const Vertex& v)
+void addVertex(Mesh& mesh_, const Vertex& v)
 {
-    mesh.vertexBuffer.push_back(v);
-    ++mesh.numVertices;
+    mesh_.vertexBuffer.push_back(v);
+    ++mesh_.numVertices;
 }
 
 
@@ -548,11 +548,11 @@ void addVertex(Mesh& mesh, const Vertex& v)
         The vertex index to be added.
 */
 /******************************************************************************/
-void addIndex(Mesh& mesh, int index)
+void addIndex(Mesh& mesh_, int index)
 {
-    mesh.indexBuffer.push_back(index);
-    ++mesh.numIndices;
+    mesh_.indexBuffer.push_back(index);
+    ++mesh_.numIndices;
 
-    if (mesh.numIndices % 3 == 0)
-        ++mesh.numTris;
+    if (mesh_.numIndices % 3 == 0)
+        ++mesh_.numTris;
 }

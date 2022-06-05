@@ -97,7 +97,13 @@ struct Mesh
     //GLint colorLoc;
     //GLint  ViewPosLoc;
 
-    GLint textureLoc{ 0 }, colorLoc{ 0 }, mvpMatLoc{ 0 }, modelLoc{ 0 }, lightPosLoc{ 0 };
+    GLint textureLoc{ 0 }, colorLoc{ 0 }, mvpMatLoc{ 0 }, modelLoc{ 0 }, lightPosLoc{ 0 }, sin_valLoc{ 0 }, shrinkLoc{ 0 }, centerLoc{ 0 }, heightLoc{ 0 }, uColorLoc{ 0 }, InnerLoc{ 0 }, OuterLoc{ 0 };
+    float shrink = 0.9f;
+    float center = 0.75f;
+    float grassHeight = 5.0f;
+    glm::vec3 uColor = Vec3(0.56, 0.8, 0.56);
+    float Inner = 1.f;
+    float Outer = 1.f;
 
     glm::vec3 position{ 0,0,0 };
     glm::vec3 scale{ 1,1,1 };
@@ -119,6 +125,7 @@ struct Mesh
     void setup_mesh();
     void compute_matrix(float delta_time, glm::highp_ivec3 eye, glm::mat4 frustum);
 	void draw(/*glm::vec3 color, glm::mat4 view, glm::mat4 projection, glm::vec3 light_pos, glm::vec3 view_pos*/);
+    void update_tess(int &eye);
     void set_position(glm::vec3 pos)
     {
         position = pos;

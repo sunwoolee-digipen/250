@@ -1,3 +1,7 @@
+// Dong-A Choi, Sunwoo Lee
+// CS250 Class Project
+// CS250
+// 2022 spring
 #include <IG.h>
 
 #include <glhelper.h>
@@ -79,8 +83,8 @@ void IG::update()
 		case 4:curr_demo = DEMOS::TERRAIN; break;
 		case 5:curr_demo = DEMOS::HERMITE; break;
 		case 6:curr_demo = DEMOS::CATMULL; break;
-		case 7:curr_demo = DEMOS::GEOM; break;
-		case 8:curr_demo = DEMOS::SHADOW; break;
+		//case 7:curr_demo = DEMOS::GEOM; break;
+		//case 8:curr_demo = DEMOS::SHADOW; break;
 
 		default: curr_demo = DEMOS::MODEL; break;
 		}

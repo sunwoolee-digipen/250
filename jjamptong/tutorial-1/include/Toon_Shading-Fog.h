@@ -1,3 +1,7 @@
+// Dong-A Choi, Sunwoo Lee
+// CS250 Class Project
+// CS250
+// 2022 spring
 #pragma once
 #include <glDemo.h>
 #include <mesh.hpp>
@@ -20,7 +24,7 @@ public:
 private:
 	   /*  For head */
 	
-	Mesh Sphere  ;
+	Mesh Sphere;
 	Mesh Plane;
 	Camera* camera;
 

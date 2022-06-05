@@ -649,18 +649,16 @@ void Mesh::setup_mesh()
     shdr_pgm.Use();
 
     /*  Obtain the locations of the variables in the shaders with the given names */
-
-    //viewLoc = glGetUniformLocation(renderProg.GetHandle(), "view");
-    //colorLoc = glGetUniformLocation(renderProg.GetHandle(), "color");
-    //projectionLoc = glGetUniformLocation(renderProg.GetHandle(), "projection");
-    //LightLoc = glGetUniformLocation(renderProg.GetHandle(), "lightPos");
-    //ViewPosLoc = glGetUniformLocation(renderProg.GetHandle(), "viewPos");
-
-    modelLoc = glGetUniformLocation(shdr_pgm.GetHandle(), "Model");
     mvpMatLoc = glGetUniformLocation(shdr_pgm.GetHandle(), "mvpMat");
+    modelLoc = glGetUniformLocation(shdr_pgm.GetHandle(), "Model");
     colorLoc = glGetUniformLocation(shdr_pgm.GetHandle(), "color");
-    textureLoc = glGetUniformLocation(shdr_pgm.GetHandle(), "tex");
-    lightPosLoc = glGetUniformLocation(shdr_pgm.GetHandle(), "u_light");
+    sin_valLoc = glGetUniformLocation(shdr_pgm.GetHandle(), "sin");
+    shrinkLoc = glGetUniformLocation(shdr_pgm.GetHandle(), "shrink");
+    centerLoc = glGetUniformLocation(shdr_pgm.GetHandle(), "center");
+    heightLoc = glGetUniformLocation(shdr_pgm.GetHandle(), "height");
+    uColorLoc = glGetUniformLocation(shdr_pgm.GetHandle(), "uColor");
+    InnerLoc = glGetUniformLocation(shdr_pgm.GetHandle(), "TessLevelInner");
+    OuterLoc = glGetUniformLocation(shdr_pgm.GetHandle(), "TessLevelOuter");
 
     SendVertexData();
 
@@ -672,7 +670,7 @@ void Mesh::setup_mesh()
 
     /*  Hidden surface removal */
     glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LESS);
+    glDepthFunc(GL_LEQUAL);
 
     glEnable(GL_CULL_FACE);     /*  For efficiency, not drawing back-face */
 
@@ -754,11 +752,35 @@ void Mesh::draw(/*glm::vec3 color ,glm::mat4 view, glm::mat4 projection, glm::ve
 
     glUniformMatrix4fv(modelLoc, 1, GL_FALSE, ValuePtr(glm::translate(selfMat, position)));
 
-   
+    glUniform1f(shrinkLoc, shrink);
+    glUniform1f(centerLoc, center);
+    glUniform1f(heightLoc, grassHeight);
+    glUniform3fv(uColorLoc, 1, ValuePtr(uColor));
 
     //    /*  Tell shader to use obj's VAO for rendering */
     glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES, numIndices, GL_UNSIGNED_INT, nullptr);
+
+    shdr_pgm.UnUse();
+}
+
+void Mesh::update_tess(int& eye)
+{
+    shdr_pgm.Use();
+
+    if (ImGui::SliderFloat("Inner", &Inner, 1.0f, 5.0f))
+    {
+        glUniform1f(InnerLoc, Inner);
+    }
+    if (ImGui::SliderFloat("Outer", &Outer, 1.0f, 5.0f))
+    {
+        glUniform1f(InnerLoc, Outer);
+    }
+    ImGui::SliderInt("Depth", &eye, 1, 64);
+    ImGui::SliderFloat("Shrink", &shrink, 0.00f, 1.00f);
+    ImGui::SliderFloat("CenterLocation", &center, 0.25f, 1.00f);
+    ImGui::SliderFloat("GrassHeight", &grassHeight, 1.0f, 10.0f);
+    ImGui::SliderFloat3("GrassColor", &uColor.x, 0.f, 1.f);
 
     shdr_pgm.UnUse();
 }

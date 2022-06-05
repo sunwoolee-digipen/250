@@ -144,23 +144,23 @@ void CompileShaders()
         will be sent to shaders.
 */
 /******************************************************************************/
-void SendVertexData(Mesh &mesh)
+void SendVertexData(Mesh &mesh_)
 {
-    glGenVertexArrays(1, &mesh.VAO);
-    glBindVertexArray(mesh.VAO);
+    glGenVertexArrays(1, &mesh_.VAO);
+    glBindVertexArray(mesh_.VAO);
 
-    glGenBuffers(1, &mesh.VBO);
-    glBindBuffer(GL_ARRAY_BUFFER, mesh.VBO);
+    glGenBuffers(1, &mesh_.VBO);
+    glBindBuffer(GL_ARRAY_BUFFER, mesh_.VBO);
     /*  Copy vertex attributes to GPU */
     glBufferData(GL_ARRAY_BUFFER, 
-                    mesh.numVertices * vertexSize, &mesh.vertexBuffer[0], 
+                    mesh_.numVertices * vertexSize, &mesh_.vertexBuffer[0], 
                     GL_STATIC_DRAW);
 
-    glGenBuffers(1, &mesh.IBO);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh.IBO);
+    glGenBuffers(1, &mesh_.IBO);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh_.IBO);
     /*  Copy vertex indices to GPU */
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, 
-                    mesh.numIndices * indexSize, &mesh.indexBuffer[0], 
+                    mesh_.numIndices * indexSize, &mesh_.indexBuffer[0], 
                     GL_STATIC_DRAW);
      
     /*  Send vertex attributes to shaders */
@@ -400,7 +400,7 @@ void Render()
     }
     if (ImGui::SliderFloat("Outer", &Outer, 1.0f, 5.0f))
     {
-        glUniform1f(InnerLoc, Outer);
+        glUniform1f(OuterLoc, Outer);
     }
     
 

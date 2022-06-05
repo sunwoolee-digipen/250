@@ -26,7 +26,7 @@ struct Vertex
 {
     Vertex(Vec3 pos, Vec3 nrm, Vec3 uv) : pos(pos), nrm(nrm), uv(uv){}
 
-    Vertex(){ }
+    Vertex() : pos({ 0,0,0 }), nrm({ 0,0,0 }), uv({ 0,0 }) { }
 
     Vec3 pos, nrm;
     Vec2 uv;
@@ -67,18 +67,18 @@ struct Mesh
     std::vector<Vertex> vertexBuffer;
     std::vector<int> indexBuffer;
 
-    int numVertices;
-    int numTris;
-    int numIndices;
+    int numVertices=0;
+    int numTris=0;
+    int numIndices=0;
 
     /*  Once the buffer data has been copied into the pipeline, these array object and 
         buffer objects will store  its "states".
         Later on if we want to render a mesh, we just need to bind the VAO. 
         We don't need to copy the buffer data again.
     */
-    GLuint VAO;
-    GLuint VBO;
-    GLuint IBO;
+    GLuint VAO=0;
+    GLuint VBO=0;
+    GLuint IBO=0;
 };
 
 

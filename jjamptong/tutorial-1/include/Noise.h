@@ -26,7 +26,7 @@ public:
     void makePPM();
     void makePPM4Marble();
     void makePPM4Wood();
-    void makePPM4Turbulence();
+    //void makePPM4Turbulence();
     void mesh_setup();
     GLuint texture_setup();    
 
@@ -55,7 +55,6 @@ private:
         VALUE = 0,
         MARBLE,
         WOOD,
-        TURBULENCE,
         NONE
     };
 	enum class METHOD_MODE
@@ -65,7 +64,7 @@ private:
         NONE
     };
 
-    const char* items[static_cast<int>(VALUE_MODE::NONE)] = { "Value", "Marble", "Wood", "Turbulence"};
+    const char* items[static_cast<int>(VALUE_MODE::NONE)] = { "Value", "Marble", "Wood" };
     const char* methods[static_cast<int>(METHOD_MODE::NONE)] = { "SmoothStep", "Quintic" };
 	bool do_once = true;
 

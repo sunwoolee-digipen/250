@@ -1,3 +1,7 @@
+// Dong-A Choi, Sunwoo Lee
+// CS250 Class Project
+// CS250
+// 2022 spring
 #pragma once
 #include <glslshader.h>
 #include <GLDemo.h>
@@ -17,6 +21,7 @@ private:
 	void setup_shdrpgm();
 	void setup_vao();
 	void update_vao();
+	void add_vao();
 	GLuint vaoid = 0;
 	GLuint vboid = 0;
 
@@ -26,9 +31,6 @@ private:
 		glm::vec2(-0.5f, -0.75f),glm::vec2(-0.5f, 0.0f),glm::vec2(0.5f, 0.0f),glm::vec2(0.5f, -0.75f),glm::vec2(0.5f, 0.0f)
 	};
 
-	void add_vao();
-	void vert_update(glm::vec2 P0, glm::vec2 P1, int count);
-	void calc_vert(int count);
 	int curve_count = 1;
 	bool is_clicked = false;
 	int VERT_NUM = 4;

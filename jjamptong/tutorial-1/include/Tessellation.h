@@ -1,17 +1,13 @@
-// Dong-A Choi, Sunwoo Lee
-// CS250 Class Project
-// CS250
-// 2022 spring
 #pragma once
 
+#include <mesh.hpp>
 #include <GLDemo.h>
-
-//class IG;
+#include <input.hpp>
 
 class Tessellation : public GLDemo
 {
 public:
-	Tessellation() {};
+	Tessellation() :camera(nullptr) {};
 	~Tessellation() override {};
 
 	void init() override;
@@ -19,5 +15,7 @@ public:
 	void draw() override;
 	void cleanup() override;
 private:
-	//IG* imgui;
+
+	Mesh plane = CreatePlane(7, 7);
+	Camera* camera;
 };

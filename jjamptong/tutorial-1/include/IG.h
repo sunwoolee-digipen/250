@@ -1,3 +1,7 @@
+// Dong-A Choi, Sunwoo Lee
+// CS250 Class Project
+// CS250
+// 2022 spring
 #pragma once
 #include <imgui.h>
 #include <imgui_impl_opengl3.h>
@@ -15,8 +19,8 @@ public:
 		TERRAIN,
 		HERMITE,
 		CATMULL,
-		GEOM,
-		SHADOW,
+		//GEOM,
+		//SHADOW,
 		NONE
 	};
 
@@ -42,8 +46,8 @@ private:
 		"Perlin Terrain",
 		"Hermite Curve",
 		"Catmull-Rom Spline",
-		"Geometry & Tessellation Shaders",
-		"Shadow Mapping"
+		//"Geometry & Tessellation Shaders",
+		//"Shadow Mapping"
 	};
 	int selectedItem;
 	DEMOS curr_demo;
