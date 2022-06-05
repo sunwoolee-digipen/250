@@ -69,44 +69,40 @@ void Models::update(double delta_time) {
 	Torus.set_position(Torus.Get_position());
 
 	if (ImGui::SliderInt2("Plane Slice&Stack", &PlaneSS.x, 5, 20)) 
-	{ once = true; }
-	if (ImGui::SliderInt2("Cube Slice&Stack", &CubeSS.x, 5, 20))
-	{once = true;}
-	if (ImGui::SliderInt2("Sphere Slice&Stack", &SphereSS.x, 8, 32))
-	{once = true;}
-	if (ImGui::SliderInt2("Cylinder Slice&Stack", &CylinderSS.x, 1, 16))
-	{once = true;}
-	if (ImGui::SliderInt2("Cone Slice&Stack", &ConeSS.x, 4, 32))
-	{once = true;}
-	if (ImGui::SliderInt2("Torus Slice&Stack", &TorusSS.x, 8,32))
-	{once = true;}
-	if (once) {
+	{
 		Plane = CreatePlane(PlaneSS.x, PlaneSS.y);
 		Plane.init(shdr_files, Vec4(0.1f, 0.1f, 0.9f, 1.00f), { -3,1.,-1 }, { 2,2,2 }, { 0,0,0 });
 		Plane.compute_matrix(static_cast<float>(delta_time), camera->Get_eye(), camera->Get_frustum());
-		
-
+	}
+	if (ImGui::SliderInt2("Cube Slice&Stack", &CubeSS.x, 5, 20))
+	{
 		Cube = CreateCube(CubeSS.x, CubeSS.y);
 		Cube.init(shdr_files, Vec4(0.1f, 0.1f, 0.9f, 1.00f), { 0,1.,-1 }, { 2,2,2 }, { 0,0,0 });
 		Cube.compute_matrix(static_cast<float>(delta_time), camera->Get_eye(), camera->Get_frustum());
-
+	}
+	if (ImGui::SliderInt2("Sphere Slice&Stack", &SphereSS.x, 8, 32))
+	{
 		Sphere = CreateSphere(SphereSS.x, SphereSS.y);
 		Sphere.init(shdr_files, Vec4(0.3f, 0.3f, 0.7f, 1.00f), { 3,1.,-1 }, { 2,2,2 }, { 0,0,0 });
 		Sphere.compute_matrix(static_cast<float>(delta_time), camera->Get_eye(), camera->Get_frustum());
-
+	}
+	if (ImGui::SliderInt2("Cylinder Slice&Stack", &CylinderSS.x, 1, 16))
+	{
 		Cylinder = CreateCylinder(CylinderSS.x, CylinderSS.y);
 		Cylinder.init(shdr_files, Vec4(0.1f, 0.1f, 0.9f, 1.00f), { -3,-1.,-1 }, { 2,2,2 }, { 0,0,0 });
 		Cylinder.compute_matrix(static_cast<float>(delta_time), camera->Get_eye(), camera->Get_frustum());
-
+	}
+	if (ImGui::SliderInt2("Cone Slice&Stack", &ConeSS.x, 4, 32))
+	{
 		Cone = CreateCone(ConeSS.x, ConeSS.y);
 		Cone.init(shdr_files, Vec4(0.7f, 0.7f, 1.0f, 1.0f), { 0,-1.,-1 }, { 2,2,2 }, { 0,0,0 });
 		Cone.compute_matrix(static_cast<float>(delta_time), camera->Get_eye(), camera->Get_frustum());
-
+	}
+	if (ImGui::SliderInt2("Torus Slice&Stack", &TorusSS.x, 8,32))
+	{
 		Torus = CreateTorus(TorusSS.x, TorusSS.y, 0, TWO_PI);
 		Torus.init(shdr_files, Vec4(1.0f, 0.0f, 0.0f, 1.0f), { 3,-1.,-1 }, { 2,2,2 }, { 0,0,0 });
 		Torus.compute_matrix(static_cast<float>(delta_time), camera->Get_eye(), camera->Get_frustum());
-
-		once = false;
 	}
 
 	camera->eyeMoved = false;

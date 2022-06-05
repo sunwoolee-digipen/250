@@ -1,6 +1,6 @@
 #version 330 core
 
-uniform vec3 u_light = vec3(5.0, 0.0, -3.0);
+uniform vec3 u_light;// = vec3(5.0, 0.0, -3.0);
 uniform vec3 u_lightColor = vec3(1.0, 1.0, 1.0);
 uniform vec4 color;
 uniform sampler2D tex;

@@ -33,5 +33,4 @@ private:
 
 	std::vector<std::pair<GLenum, std::string>> shdr_files;
 
-	bool once = false;
 };

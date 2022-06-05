@@ -15,8 +15,7 @@ void Perlin_Terrain::init() {
 	camera->Set_eye(3);
 
 	terrain = CreateTerrain(50, 50, frequency);
-
-	std::vector<std::pair<GLenum, std::string>> shdr_files;
+	
 	shdr_files.push_back(std::make_pair(GL_VERTEX_SHADER, "../shaders/terrain.vert"));
 	shdr_files.push_back(std::make_pair(GL_FRAGMENT_SHADER, "../shaders/terrain.frag"));
 
@@ -44,6 +43,17 @@ void Perlin_Terrain::update(double delta_time) {
 	if (camera->eyeMoved || camera->resized)
 	{
 		terrain->compute_matrix(static_cast<float>(delta_time), camera->Get_eye(), camera->Get_frustum());
+	}
+	terrain->GetShdr_pgm().Use();
+	glUniform3fv(terrain->lightPosLoc, 1, ValuePtr(terrain->lightPos));
+	ImGui::SliderFloat3("LightPos", &terrain->lightPos.x, -100.f, 100.f);
+	terrain->GetShdr_pgm().UnUse();
+	if(ImGui::SliderInt2("Terrain Slice&Stack", &terrainSS.x,10,100))
+	{
+		terrain = CreateTerrain(terrainSS.x, terrainSS.y, frequency);
+		terrain->init(shdr_files, Vec4(0.1f, 0.1f, 0.9f, 1.00f), { 0,0,0 }, { 3.,3.,1. }, { 0,0,0 });
+		terrain->selfMat = Translate({ 0,0,0 }) * Rotate(QUARTER_PI, XAXIS) * Scale({ 3.,3.,1. });
+		terrain->compute_matrix(0.0, camera->Get_eye(), camera->Get_frustum());
 	}
 
 	ImGui::SliderFloat("frequency", &frequency, 0.0f, 0.2f); 

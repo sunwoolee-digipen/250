@@ -14,9 +14,12 @@ public:
 	void draw() override;
 	void cleanup() override;
 private:
+	std::vector<std::pair<GLenum, std::string>> shdr_files;
 
+	glm::ivec2 terrainSS{ 50,50 };
 	Mesh* terrain;
 	Camera* camera;
 
 	float frequency = 0.1f;
+	
 };
