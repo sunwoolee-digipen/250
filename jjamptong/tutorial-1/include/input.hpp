@@ -31,6 +31,7 @@ public:
 	bool eyeMoved = true;     /*  to trigger view matrix update */
 	bool resized = true;     /*  to trigger projection matrix update */
 
+	int eyeRadius = 3;
 	glm::mat4 Get_frustum();
 	glm::highp_ivec3 Get_eye();
 	void Set_eye(int rad);
@@ -57,7 +58,7 @@ private:
 	/*  For moving the camera */
 	int eyeAlpha = 0;
 	int eyeBeta = NUM_STEPS_PI / 2;
-	int eyeRadius = 3;
+	
 
 
 

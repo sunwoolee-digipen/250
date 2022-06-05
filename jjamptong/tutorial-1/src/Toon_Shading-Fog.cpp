@@ -20,7 +20,8 @@ void Toon_Fog::init() {
 	Sphere = CreateSphere(16, 16);
 	Sphere.init(shdr_files, Vec4(0.1f, 0.1f, 0.9f, 1.00f), { 0,0,0}, { 1,1,1 }, { 0,0,0 });
 	Plane = CreatePlane(10, 10);
-	Plane.init(shdr_files, Vec4(0.1f, 0.1f, 0.9f, 1.00f), {-0,0,7}, {30,30,1}, {0,0,0});
+	Plane.init(shdr_files, Vec4(0.1f, 0.1f, 0.9f, 1.00f), { 0,0,-2 }, { 30,30,1 }, {0,0,0});
+	Plane.selfMat = { Translate({0,0,0}) * Rotate(-HALF_PI, XAXIS) * Scale({ 30, 30, 1 }) };
 
 
 	GLubyte const* str_ven = glGetString(GL_VENDOR);
@@ -50,9 +51,12 @@ void Toon_Fog::update(double delta_time) {
 
 	Sphere.GetShdr_pgm().Use();
 	glUniform3fv(Sphere.lightPosLoc, 1, ValuePtr(Sphere.lightPos));
-	//glUniform3fv(Plane.lightPosLoc, 1, ValuePtr(Plane.lightPos));
 	ImGui::SliderFloat3("LightPos", &Sphere.lightPos.x, -100.f, 100.f);
 	ImGui::SliderFloat3("SpherePos", &Sphere.Get_position().x, -15.f, 15.f);
+	if (ImGui::SliderInt("Camera Depth", &camera->eyeRadius, 1, 64)) {
+		Sphere.compute_matrix(static_cast<float>(delta_time), camera->Get_eye(), camera->Get_frustum());
+		Plane.compute_matrix(static_cast<float>(delta_time), camera->Get_eye(), camera->Get_frustum());
+	}
 	Sphere.set_position(Sphere.Get_position());
 	Sphere.GetShdr_pgm().UnUse();
 	
