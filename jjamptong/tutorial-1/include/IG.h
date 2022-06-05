@@ -48,5 +48,5 @@ private:
 	int selectedItem;
 	DEMOS curr_demo;
 	bool is_wireframe;
-	ImVec4 clear_color{ ImVec4(0.8f, 0.5f, 0.5f, 1.0f) };
+	ImVec4 clear_color{ ImVec4(0.0f, 0.0f, 0.0f, 1.0f) };
 };

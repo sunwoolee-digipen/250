@@ -12,7 +12,7 @@ void Models::init() {
 	glViewport(0, 0, GLHelper::width, GLHelper::height);
 
 	camera = new Camera();
-	camera->Set_eye(10);
+	camera->Set_eye(20);
 
 	std::vector<std::pair<GLenum, std::string>> shdr_files;
 	shdr_files.push_back(std::make_pair(GL_VERTEX_SHADER, "../shaders/model_shader.vert"));

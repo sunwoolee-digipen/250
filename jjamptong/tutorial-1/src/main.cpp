@@ -98,6 +98,7 @@ int main() {
           continue;
       }
 
+     
       if (curr_demo != IG::DEMOS::NONE)
       {
           demos[static_cast<int>(curr_demo)]->update(delta_time);
@@ -105,7 +106,7 @@ int main() {
       
       //IG::update();
       //===================================================================================================
-      ImGui::Render();
+  	  ImGui::Render();
 
       //curr_demo = main_IG->Get_state();
       if (curr_demo != IG::DEMOS::NONE)

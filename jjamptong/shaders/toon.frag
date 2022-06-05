@@ -2,7 +2,7 @@
 
 precision mediump float;
 
-uniform vec3 u_light = vec3(0.0, 0.0, -3.0);
+uniform vec3 u_light;
 uniform vec3 fogColor = vec3(0.5, 0.5, 0.5);
 uniform vec3 u_lightColor = vec3(1.0, 1.0, 1.0);
 uniform float u_ambient = 0.5;

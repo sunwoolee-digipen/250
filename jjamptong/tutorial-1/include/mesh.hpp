@@ -21,6 +21,8 @@
 #include <math.hpp>
 #include <glslshader.h>
 #include <PerlinNoise.h>
+#include <imgui_impl_opengl3.h>
+#include <imgui.h>
 
 
 /*  Vertex format */
@@ -87,6 +89,7 @@ struct Mesh
     /// /////////////////////////
     GLSLShader shdr_pgm;
 
+    GLSLShader GetShdr_pgm() { return shdr_pgm; };
     //GLint modelLoc;
     //GLint viewLoc;
     //GLint   projectionLoc;
@@ -100,9 +103,14 @@ struct Mesh
     glm::vec3 scale{ 1,1,1 };
     glm::vec3 rotation{ 0,0,0 };
     glm::vec4 selfColor{ 1,0,0,1 };
+
+    GLint lightPosLoc;
+    glm::vec3 lightPos{ 0.0,0.0,-3.0 };
+
     Mat4 selfMat{ Mat4(1.0f) }, viewMat{ Mat4(1.0f) }, projMat{ Mat4(1.0f) }, MVPMat{ Mat4(1.0f) };
     int stack_{ 0 }, slice_{ 0 };
     double x_pos{ 0.0 };
+
 
     void init(std::vector<std::pair<GLenum, std::string>>& shdr_files, glm::vec4 selfcol, glm::vec3 Pos = { 0,0,0 }, glm::vec3 Scale = { 1,1,1 }, glm::vec3 Rotate = { 0,0,0 });
     void SendVertexData();
@@ -111,7 +119,7 @@ struct Mesh
     void setup_shdrpgm(std::vector<std::pair<GLenum, std::string>>& shdr_files);
     void setup_mesh();
     void compute_matrix(float delta_time, glm::highp_ivec3 eye, glm::mat4 frustum);
-    void draw(/*glm::vec3 color, glm::mat4 view, glm::mat4 projection, glm::vec3 light_pos, glm::vec3 view_pos*/);
+	void draw(/*glm::vec3 color, glm::mat4 view, glm::mat4 projection, glm::vec3 light_pos, glm::vec3 view_pos*/);
     void set_position(glm::vec3 pos)
     {
         position = pos;
