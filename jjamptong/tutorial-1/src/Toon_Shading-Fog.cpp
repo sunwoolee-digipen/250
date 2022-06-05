@@ -1,6 +1,5 @@
 #include <Toon_Shading-Fog.h>
 #include <IG.h>
-#include <graphics.hpp>
 /*                                                   objects with file scope
 ----------------------------------------------------------------------------- */
 //static GLNew    g_glnew;
@@ -22,19 +21,6 @@ void Toon_Fog::init() {
 	Plane = CreatePlane(10, 10);
 	Plane.init(shdr_files, Vec4(0.1f, 0.1f, 0.9f, 1.00f), { 0,0,-2 }, { 30,30,1 }, {0,0,0});
 	Plane.selfMat = { Translate({0,0,0}) * Rotate(-HALF_PI, XAXIS) * Scale({ 30, 30, 1 }) };
-
-
-	GLubyte const* str_ven = glGetString(GL_VENDOR);
-	std::cout << "GPU Vendor: " << str_ven << std::endl;
-
-	GLubyte const* str_ren = glGetString(GL_RENDERER);
-	//std::cout << "GL Renderer: " << str_ren << std::endl;
-
-	GLubyte const* str_ver = glGetString(GL_VERSION);
-	std::cout << "GL Version: " << str_ver << std::endl;
-
-	GLubyte const* sha_ver = glGetString(GL_SHADING_LANGUAGE_VERSION);
-	std::cout << "GL Shader Version: " << sha_ver << std::endl;
 }
 
 void Toon_Fog::update(double delta_time) {

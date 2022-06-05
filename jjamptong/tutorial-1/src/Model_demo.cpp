@@ -1,6 +1,5 @@
 #include <Model_demo.h>
 #include <IG.h>
-#include <graphics.hpp>
 /*                                                   objects with file scope
 ----------------------------------------------------------------------------- */
 //static GLNew    g_glnew;

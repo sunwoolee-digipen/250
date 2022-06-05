@@ -1,6 +1,5 @@
 #include <Perlin_Terrain.h>
 #include <IG.h>
-#include <graphics.hpp>
 /*                                                   objects with file scope
 ----------------------------------------------------------------------------- */
 //static GLNew    g_glnew;
@@ -46,7 +45,7 @@ void Perlin_Terrain::update(double delta_time) {
 	}
 	terrain->GetShdr_pgm().Use();
 	glUniform3fv(terrain->lightPosLoc, 1, ValuePtr(terrain->lightPos));
-	ImGui::SliderFloat3("LightPos", &terrain->lightPos.x, -100.f, 100.f);
+	ImGui::SliderFloat3("LightPos", &terrain->lightPos.x, -10.f, 10.f);
 	terrain->GetShdr_pgm().UnUse();
 	if(ImGui::SliderInt2("Terrain Slice&Stack", &terrainSS.x,10,100))
 	{
@@ -71,6 +70,7 @@ void Perlin_Terrain::draw() {
 
 void Perlin_Terrain::cleanup() {
 	delete camera;
+	delete terrain;
 }
 
 

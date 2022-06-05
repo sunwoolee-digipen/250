@@ -30,6 +30,8 @@ an OpenGL context and implement a game loop.
 #include <Noise.h>
 #include <PerlinNoise.h>
 #include <Perlin_Terrain.h>
+#include <Hermite_Curve.h>
+#include <CatmullRomSplines.h>
 #include <vector>
 
 /*                                                   type declarations
@@ -59,12 +61,16 @@ int main() {
     ValueNoise* valnoise = new ValueNoise();
     PerlinNoise* pernoise = new PerlinNoise();
     Perlin_Terrain* terrain = new Perlin_Terrain();
+    Hermite_Curve* hercurve = new Hermite_Curve();
+    CatmullRomSplines* catcurve = new CatmullRomSplines();
 
     demos.push_back(model);
     demos.push_back(toonfog);
     demos.push_back(valnoise);
     demos.push_back(pernoise);
     demos.push_back(terrain);
+    demos.push_back(hercurve);
+    demos.push_back(catcurve);
     
     IG::DEMOS curr_demo = main_IG->Get_state();
 
