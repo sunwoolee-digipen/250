@@ -97,14 +97,13 @@ struct Mesh
     //GLint colorLoc;
     //GLint  ViewPosLoc;
 
-    GLint textureLoc{ 0 }, colorLoc{ 0 }, mvpMatLoc{ 0 }, modelLoc{ 0 };
+    GLint textureLoc{ 0 }, colorLoc{ 0 }, mvpMatLoc{ 0 }, modelLoc{ 0 }, lightPosLoc{ 0 };
 
     glm::vec3 position{ 0,0,0 };
     glm::vec3 scale{ 1,1,1 };
     glm::vec3 rotation{ 0,0,0 };
     glm::vec4 selfColor{ 1,0,0,1 };
 
-    GLint lightPosLoc;
     glm::vec3 lightPos{ 0.0,0.0,-3.0 };
 
     Mat4 selfMat{ Mat4(1.0f) }, viewMat{ Mat4(1.0f) }, projMat{ Mat4(1.0f) }, MVPMat{ Mat4(1.0f) };
