@@ -20,6 +20,7 @@
 
 #include <math.hpp>
 #include <glslshader.h>
+#include <PerlinNoise.h>
 
 
 /*  Vertex format */
@@ -100,9 +101,13 @@ struct Mesh
     glm::vec3 rotation{ 0,0,0 };
     glm::vec4 selfColor{ 1,0,0,1 };
     Mat4 selfMat{ Mat4(1.0f) }, viewMat{ Mat4(1.0f) }, projMat{ Mat4(1.0f) }, MVPMat{ Mat4(1.0f) };
+    int stack_{ 0 }, slice_{ 0 };
+    double x_pos{ 0.0 };
 
     void init(std::vector<std::pair<GLenum, std::string>>& shdr_files, glm::vec4 selfcol, glm::vec3 Pos = { 0,0,0 }, glm::vec3 Scale = { 1,1,1 }, glm::vec3 Rotate = { 0,0,0 });
     void SendVertexData();
+    void UpdateVertexData();
+    void UpdateTerrain(double dt, float& frequency);
     void setup_shdrpgm(std::vector<std::pair<GLenum, std::string>>& shdr_files);
     void setup_mesh();
     void compute_matrix(float delta_time, glm::highp_ivec3 eye, glm::mat4 frustum);
@@ -128,12 +133,12 @@ struct Mesh
 
 /*  Mesh function(s) */
 Mesh CreatePlane(int stacks, int slices);
+Mesh* CreateTerrain(int stacks, int slices, float& frequency);
 Mesh CreateCube(int stacks, int slices);
 Mesh CreateSphere(int stacks, int slices);
 Mesh CreateTorus(int stacks, int slices, float startAngle, float endAngle);
 Mesh CreateCylinder(int stacks, int slices);
 Mesh CreateCone(int stacks, int slices);
-
 
 
 /******************************************************************************/

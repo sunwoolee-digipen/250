@@ -3,20 +3,10 @@
 // CS250
 // 2022 spring
 
-//#include <cstdio> 
 #include <random> 
 #include <functional> 
-//#include <iostream> 
-//#include <fstream> 
-//#include <cmath>
 #include <array>
-
-//#include <glslshader.h>
-//#include <glhelper.h>
-//#include <glm/gtc/noise.hpp>
-
-#include "Noise.h"
-//#include "IG.h"
+#include <Noise.h>
 #include <math.hpp>
 
 ValueNoise::ValueNoise(unsigned seed)
@@ -223,7 +213,7 @@ void ValueNoise::update([[maybe_unused]]double delta_time)
     }
 
     // 모드 바꿨을때
-    if (ImGui::Combo("Demos", &current_item, items, IM_ARRAYSIZE(items)))
+    if (ImGui::Combo("Change Pattern", &current_item, items, IM_ARRAYSIZE(items)))
     {
         switch (current_item)
         {
@@ -236,10 +226,6 @@ void ValueNoise::update([[maybe_unused]]double delta_time)
     }
 }
 
-void ValueNoise::cleanup()
-{
-   //IG::cleanup();
-}
 
 void ValueNoise::vert_setup()
 {
@@ -282,4 +268,8 @@ void ValueNoise::shdr_setup()
         std::cout << shdr.GetLog() << std::endl;
         std::exit(EXIT_FAILURE);
     }
+}
+
+void ValueNoise::cleanup()
+{
 }

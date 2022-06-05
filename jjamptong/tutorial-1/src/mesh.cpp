@@ -13,6 +13,7 @@
 
 #include <mesh.hpp>
 #include <glhelper.h>
+#include <PerlinNoise.h>
 
 
 /*  Function prototype(s) */
@@ -64,7 +65,77 @@ Mesh CreatePlane(int stacks, int slices)
     return mesh;
 }
 
+Mesh* CreateTerrain(int stacks, int slices, float& frequency)
+{
+    Mesh* mesh = new Mesh();
+    mesh->stack_ = stacks;
+    mesh->slice_ = slices;
 
+    PerlinNoise* perlinnoise = new PerlinNoise(2016);
+
+    for (int stack = 0; stack <= stacks; ++stack)
+    {
+        float row = (float)stack / stacks;
+
+        for (int slice = 0; slice <= slices; ++slice)
+        {
+            float col = (float)slice / slices;
+
+            Vertex v;
+            glm::vec3 derivs;
+            float pos_z = (perlinnoise->eval4Quintic(Vec3(slice - 0.5f, 0.5f - stack, 0.0f) * frequency, derivs));
+
+            v.pos = Vec3(col - 0.5f, 0.5f - row, pos_z);
+            v.nrm = Vec3(derivs.x, derivs.y, -1);
+            v.uv = Vec2(col, row);
+
+            addVertex(*mesh, v);
+        }
+    }
+    
+    BuildIndexBuffer(stacks, slices, *mesh);
+    delete perlinnoise;
+    
+    return mesh;
+}
+
+void Mesh::UpdateTerrain(double dt, float& frequency)
+{
+    this->vertexBuffer.clear();
+    this->numVertices = 0;
+    this->indexBuffer.clear();
+    this->numIndices = 0;
+    this->numTris = 0;
+    this->x_pos += dt * 5;
+
+    PerlinNoise* perlinnoise = new PerlinNoise(2016);
+
+    int stacks = this->stack_;
+    int slices = this->slice_;
+
+    for (int stack = 0; stack <= stacks; ++stack)
+    {
+        float row = (float)stack / stacks;
+
+        for (int slice = 0; slice <= slices; ++slice)
+        {
+            float col = (float)slice / slices;
+
+            Vertex v;
+            glm::vec3 derivs;
+            float pos_z = (perlinnoise->eval4Quintic(Vec3(slice - 0.5f + this->x_pos, 0.5f - stack, 0.0f) * frequency, derivs));
+
+            v.pos = Vec3(col - 0.5f, 0.5f - row, pos_z);
+            v.nrm = Vec3(derivs.x, derivs.y, -1);
+            v.uv = Vec2(col, row);
+
+            addVertex(*this, v);
+        }
+    }
+
+    BuildIndexBuffer(stacks, slices, *this);
+    delete perlinnoise;
+}
 /******************************************************************************/
 /*!
 \fn     Mesh CreateCube(int stacks, int slices)
@@ -666,7 +737,7 @@ void Mesh::draw(/*glm::vec3 color ,glm::mat4 view, glm::mat4 projection, glm::ve
 
     if (GLHelper::currRenderMode == GLHelper::RenderMode::NORMAL)
     {
-        glUniform4fv(colorLoc, 1, ValuePtr(useNormal));
+        glUniform4fv(colorLoc, 1, ValuePtr(selfColor));
     }
 
     else if (GLHelper::currRenderMode == GLHelper::RenderMode::WIREFRAME)
@@ -699,6 +770,30 @@ void Mesh::SendVertexData()
         GL_STATIC_DRAW);
 
     glGenBuffers(1, &IBO);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
+    /*  Copy vertex indices to GPU */
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER,
+        numIndices * indexSize, &indexBuffer[0],
+        GL_STATIC_DRAW);
+
+    /*  Send vertex attributes to shaders */
+    for (int i = 0; i < numAttribs; ++i)
+    {
+        glEnableVertexAttribArray(vLayout[i].location);
+        glVertexAttribPointer(vLayout[i].location, vLayout[i].size, vLayout[i].type, vLayout[i].normalized, vertexSize, reinterpret_cast<void*>(vLayout[i].offset));
+    }
+}
+
+void Mesh::UpdateVertexData()
+{
+    glBindVertexArray(VAO);
+
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    /*  Copy vertex attributes to GPU */
+    glBufferData(GL_ARRAY_BUFFER,
+        numVertices * vertexSize, &vertexBuffer[0],
+        GL_STATIC_DRAW);
+
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
     /*  Copy vertex indices to GPU */
     glBufferData(GL_ELEMENT_ARRAY_BUFFER,

@@ -28,6 +28,8 @@ an OpenGL context and implement a game loop.
 #include <Model_demo.h>
 #include <Toon_Shading-Fog.h>
 #include <Noise.h>
+#include <PerlinNoise.h>
+#include <Perlin_Terrain.h>
 #include <vector>
 
 /*                                                   type declarations
@@ -55,10 +57,14 @@ int main() {
     Models* model = new Models();
     Toon_Fog* toonfog = new Toon_Fog();
     ValueNoise* valnoise = new ValueNoise();
+    PerlinNoise* pernoise = new PerlinNoise();
+    Perlin_Terrain* terrain = new Perlin_Terrain();
 
     demos.push_back(model);
     demos.push_back(toonfog);
     demos.push_back(valnoise);
+    demos.push_back(pernoise);
+    demos.push_back(terrain);
     
     IG::DEMOS curr_demo = main_IG->Get_state();
 

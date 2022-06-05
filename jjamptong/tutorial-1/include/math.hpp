@@ -376,5 +376,25 @@ inline bool DegenerateTri(const Vec3 &v0, const Vec3 &v1, const Vec3 &v2)
             glm::distance(v2, v0) < EPSILON);
 }
 
+template<typename T = float>
+inline T lerp(const T& lo, const T& hi, const T& t)
+{
+    return lo * (1 - t) + hi * t;
+}
+
+inline float smoothstep(const float& t)
+{
+    return t * t * (3 - 2 * t);
+}
+
+inline float quintic(const float& t)
+{
+    return t * t * t * (t * (t * 6 - 15) + 10);
+}
+
+inline float quinticDeriv(const float& t)
+{
+    return 30 * t * t * (t * (t - 2) + 1);
+}
 
 #endif

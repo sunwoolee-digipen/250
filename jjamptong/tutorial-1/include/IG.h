@@ -39,7 +39,7 @@ private:
 		"Toon / Cell Shading & Fog",
 		"Value noise",
 		"Gradient noise / Perlin noise",
-		"Terrain",
+		"Perlin Terrain",
 		"Hermite Curve",
 		"Catmull-Rom Spline",
 		"Geometry & Tessellation Shaders",

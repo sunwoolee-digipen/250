@@ -4,37 +4,17 @@
 // 2022 spring
 
 #pragma once
-#include <vector>
-
 #include <GL/glew.h> // for access to OpenGL API declarations 
 #include <GLFW/glfw3.h>
-#include "glslshader.h"
+#include <glslshader.h>
 #include <glDemo.h>
 
-template<typename T = float>
-inline T lerp(const T& lo, const T& hi, const T& t)
-{
-    return lo * (1 - t) + hi * t;
-}
-
-inline float smoothstep(const float& t) { return t * t * (3 - 2 * t); }
-
-inline
-float quintic(const float& t)
-{
-    return t * t * t * (t * (t * 6 - 15) + 10);
-}
-
-inline
-float quinticDeriv(const float& t)
-{
-    return 30 * t * t * (t * (t - 2) + 1);
-}
-
-class ValueNoise: public GLDemo
+class ValueNoise : public GLDemo
 {
 public:
     ValueNoise(unsigned seed = 2016);
+    ~ValueNoise() override {};
+
     void init() override;
     void update(double delta_time) override;
     void draw() override;

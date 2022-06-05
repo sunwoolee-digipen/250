@@ -1,12 +1,12 @@
 #pragma once
 #include <GLDemo.h>
-
-//class IG;
+#include <mesh.hpp>
+#include <input.hpp>
 
 class Perlin_Terrain : public GLDemo
 {
 public:
-	Perlin_Terrain() {};
+	Perlin_Terrain():terrain(nullptr),camera(nullptr) {};
 	~Perlin_Terrain() override {};
 
 	void init() override;
@@ -14,5 +14,9 @@ public:
 	void draw() override;
 	void cleanup() override;
 private:
-	//IG* imgui;
+
+	Mesh* terrain;
+	Camera* camera;
+
+	float frequency = 0.1f;
 };

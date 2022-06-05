@@ -8,7 +8,7 @@ class Models :public GLDemo
 {
 public:
 	Models():camera(nullptr){};
-	~Models() {};
+	~Models() override {};
 
 	void init() override;
 	void update(double delta_time) override;
