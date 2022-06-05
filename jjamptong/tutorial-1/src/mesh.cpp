@@ -589,7 +589,7 @@ void Mesh::setup_mesh()
     mvpMatLoc = glGetUniformLocation(shdr_pgm.GetHandle(), "mvpMat");
     colorLoc = glGetUniformLocation(shdr_pgm.GetHandle(), "color");
     textureLoc = glGetUniformLocation(shdr_pgm.GetHandle(), "tex");
-
+    lightPosLoc = glGetUniformLocation(shdr_pgm.GetHandle(), "u_light");
 
     SendVertexData();
 
@@ -623,8 +623,11 @@ void Mesh::compute_matrix([[maybe_unused]] float delta_time, glm::highp_ivec3 ey
 
 	MVPMat = projMat * viewMat * selfMat;
 
+   
     shdr_pgm.UnUse();
 }
+
+
 
 void Mesh::init(std::vector<std::pair<GLenum, std::string>>& shdr_files, glm::vec4 selfcol, glm::vec3 pos, glm::vec3 scale, glm::vec3 rotate)
 {
@@ -637,6 +640,8 @@ void Mesh::init(std::vector<std::pair<GLenum, std::string>>& shdr_files, glm::ve
     setup_mesh();
 
 }
+
+
 
 void Mesh::draw(/*glm::vec3 color ,glm::mat4 view, glm::mat4 projection, glm::vec3 light_pos, glm::vec3 view_pos*/)
 {
@@ -661,7 +666,7 @@ void Mesh::draw(/*glm::vec3 color ,glm::mat4 view, glm::mat4 projection, glm::ve
     /*  Use obj's color if drawing wireframes or objs that don't have textures */
 
     shdr_pgm.Use();
-
+    
     glm::vec4 useNormal{ -1.0f, -1.0f, -1.0f, 1.0f };
 
     if (GLHelper::currRenderMode == GLHelper::RenderMode::NORMAL)
@@ -673,11 +678,14 @@ void Mesh::draw(/*glm::vec3 color ,glm::mat4 view, glm::mat4 projection, glm::ve
     {
         glUniform4fv(colorLoc, 1, ValuePtr(selfColor));
     }
-
+   
     /*  Send MVP matrix to shaders */
-    glUniformMatrix4fv(mvpMatLoc, 1, GL_FALSE, ValuePtr(MVPMat));
+    glUniformMatrix4fv(mvpMatLoc, 1, GL_FALSE, ValuePtr(glm::translate(MVPMat, position)));
 
-    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, ValuePtr(selfMat));
+
+    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, ValuePtr(glm::translate(selfMat, position)));
+
+   
 
     //    /*  Tell shader to use obj's VAO for rendering */
     glBindVertexArray(VAO);
