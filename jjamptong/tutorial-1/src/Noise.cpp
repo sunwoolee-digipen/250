@@ -50,10 +50,16 @@ float ValueNoise::eval(glm::vec2 const& p) const
     const float& c01 = r[permutationTable[permutationTable[rx0] + ry1]];
     const float& c11 = r[permutationTable[permutationTable[rx1] + ry1]];
 
-    // remapping of tx and ty using the Smoothstep function 
-    float sx = quintic(tx);
-    float sy = quintic(ty);
-
+    // remapping of tx and ty using the Smoothstep function
+    if (curr_method_mode == METHOD_MODE::QUINTIC) {
+        sx = quintic(tx);
+        sy = quintic(ty);
+    }else if(curr_method_mode == METHOD_MODE::SMOOTHSTEP)
+    {
+        sx = smoothstep(tx);
+        sy = smoothstep(ty);
+    }
+  
     // linearly interpolate values along the x axis
     float nx0 = lerp(c00, c10, sx);
     float nx1 = lerp(c01, c11, sx);
@@ -91,10 +97,9 @@ void ValueNoise::makePPM()
 void ValueNoise::makePPM4Marble()
 {
     //float frequency = 0.02f;
-    float frequencyMult = 1.8f;
-    float amplitudeMult = 0.35f;
-    unsigned numLayers = 5;
-
+    
+   
+    
     for (unsigned j = 0; j < 256; ++j) {
         for (unsigned i = 0; i < 256 * 3; ++i) {
             glm::vec2 pNoise = glm::vec2(i / 3, j) * frequencyMarble;
@@ -122,6 +127,32 @@ void ValueNoise::makePPM4Wood()
     }
 }
 
+void ValueNoise::makePPM4Turbulence()
+{
+    ValueNoise noise;
+    float frequencyTur = 0.02f;
+    float frequencyMultTur = 1.8;
+    float amplitudeMultTur = 0.35;
+    unsigned numLayers = 5;
+    float maxNoiseVal = 0;
+    for (unsigned j = 0; j < 256; ++j) {
+        for (unsigned i = 0; i < 256; ++i) {
+            glm::vec2 pNoise = glm::vec2(i, j) * frequencyTur;
+            float amplitude = 1;
+            for (unsigned l = 0; l < numLayers; ++l) {
+                ptr_texels[j][i] += std::fabs(2 * noise.eval(pNoise) - 1) * amplitude;
+                pNoise *= frequencyMultTur;
+                amplitude *= amplitudeMultTur;
+            }
+            if (ptr_texels[j][ i] > maxNoiseVal) maxNoiseVal = ptr_texels[j][ i];
+        }
+    }
+    for (unsigned j = 0; j < 256; ++j) {
+        for (unsigned i = 0; i < 256; ++i) {
+            ptr_texels[j][i] /= maxNoiseVal;
+        }
+    }
+}
 
 void ValueNoise::mesh_setup()
 {
@@ -187,31 +218,6 @@ void ValueNoise::draw()
 void ValueNoise::update([[maybe_unused]]double delta_time)
 {
     // 슬라이더 조정시 업데이트
-
-    if (curr_mode == VALUE_MODE::VALUE) {
-        if (ImGui::SliderFloat("frequency", &frequency, 0.05f, 0.5f))
-        {
-            makePPM();
-            texture_setup();
-        }
-    }
-    else if (curr_mode == VALUE_MODE::MARBLE)
-    {
-        if (ImGui::SliderFloat("frequency", &frequencyMarble, 0.02f, 0.25f))
-        {
-            makePPM4Marble();
-            texture_setup();
-        }
-    }
-    else if (curr_mode == VALUE_MODE::WOOD)
-    {
-        if (ImGui::SliderFloat("frequency", &frequencyWood, 0.01f, 0.25f))
-        {
-            makePPM4Wood();
-            texture_setup();
-        }
-    }
-
     // 모드 바꿨을때
     if (ImGui::Combo("Change Pattern", &current_item, items, IM_ARRAYSIZE(items)))
     {
@@ -224,6 +230,74 @@ void ValueNoise::update([[maybe_unused]]double delta_time)
         default: curr_mode = VALUE_MODE::VALUE; break;
         }
     }
+
+    if (curr_mode == VALUE_MODE::VALUE) {
+        if (ImGui::SliderFloat("frequency", &frequency, 0.05f, 0.5f))
+        {
+            makePPM();
+            texture_setup();
+        }
+        if (ImGui::Combo("Change Method", &current_method, methods, IM_ARRAYSIZE(methods)))
+        {
+            switch (current_method)
+            {
+            case 0:curr_method_mode = METHOD_MODE::SMOOTHSTEP; makePPM(); texture_setup(); break;
+            case 1:curr_method_mode = METHOD_MODE::QUINTIC; makePPM(); texture_setup(); break;
+            default: curr_method_mode = METHOD_MODE::QUINTIC; break;
+            }
+        }
+    }
+    else if (curr_mode == VALUE_MODE::MARBLE)
+    {
+        if (ImGui::SliderFloat("frequency", &frequencyMarble, 0.02f, 0.25f))
+        {
+            makePPM4Marble();
+            texture_setup();
+        }
+        if(ImGui::SliderInt("numLayers", &numLayers, 1, 5))
+        {
+            makePPM4Marble();
+            texture_setup();
+        }if (ImGui::SliderFloat("frequencyMult", &frequencyMult, 0.5f, 2.5f))
+        {
+            makePPM4Marble();
+            texture_setup();
+        }
+        if (ImGui::SliderFloat("amplitudeMult", &amplitudeMult, 0.f, 1.f))
+        {
+            makePPM4Marble();
+            texture_setup();
+        }
+        if (ImGui::Combo("Change Method", &current_method, methods, IM_ARRAYSIZE(methods)))
+        {
+            switch (current_method)
+            {
+            case 0:curr_method_mode = METHOD_MODE::SMOOTHSTEP; makePPM4Marble(); texture_setup(); break;
+            case 1:curr_method_mode = METHOD_MODE::QUINTIC; makePPM4Marble(); texture_setup(); break;
+            default: curr_method_mode = METHOD_MODE::QUINTIC; break;
+            }
+        }
+    }
+    else if (curr_mode == VALUE_MODE::WOOD)
+    {
+        if (ImGui::SliderFloat("frequency", &frequencyWood, 0.01f, 0.25f))
+        {
+            makePPM4Wood();
+            texture_setup();
+        }
+        if (ImGui::Combo("Change Method", &current_method, methods, IM_ARRAYSIZE(methods)))
+        {
+            switch (current_method)
+            {
+            case 0:curr_method_mode = METHOD_MODE::SMOOTHSTEP; makePPM4Wood(); texture_setup(); break;
+            case 1:curr_method_mode = METHOD_MODE::QUINTIC; makePPM4Wood(); texture_setup(); break;
+            default: curr_method_mode = METHOD_MODE::QUINTIC; break;
+            }
+        }
+    }
+
+    
+   
 }
 
 

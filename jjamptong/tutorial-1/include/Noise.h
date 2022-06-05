@@ -26,6 +26,7 @@ public:
     void makePPM();
     void makePPM4Marble();
     void makePPM4Wood();
+    void makePPM4Turbulence();
     void mesh_setup();
     GLuint texture_setup();    
 
@@ -46,7 +47,9 @@ private:
     unsigned char ptr_texels[256][256 * 3] = { 0 };
     std::vector<GLushort> indices;
 
-
+    int numLayers = 5;
+    float frequencyMult = 1.8f;
+    float amplitudeMult = 0.35f;
     enum class VALUE_MODE
     {
         VALUE = 0,
@@ -54,14 +57,26 @@ private:
         WOOD,
         NONE
     };
+	enum class METHOD_MODE
+    {
+	    SMOOTHSTEP,
+        QUINTIC,
+        NONE
+    };
 
-    const char* items[static_cast<int>(VALUE_MODE::NONE)] = { "Value", "Marble", "Wood" };
-    bool do_once = true;
+    const char* items[static_cast<int>(VALUE_MODE::NONE)] = { "Value", "Marble", "Wood"};
+    const char* methods[static_cast<int>(METHOD_MODE::NONE)] = { "SmoothStep", "Quintic" };
+	bool do_once = true;
 
+    mutable float sx = 0.f;
+	mutable float sy = 0.f;
+    
     GLuint texobj = 0;
-    float frequency = 0.5f;
+    float frequency = 0.1f;
     float frequencyMarble = 0.02f;
     float frequencyWood = 0.01f;
     int current_item = 0;
+    int current_method = 0;
     VALUE_MODE curr_mode = VALUE_MODE::VALUE;
+    METHOD_MODE curr_method_mode = METHOD_MODE::QUINTIC;
 };
